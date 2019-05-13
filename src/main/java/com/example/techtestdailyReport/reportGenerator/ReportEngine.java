@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ReportEngine {
 
     public void dailyAmountSettled(List<Instruction> instructions, TradeType type) throws ReportEngineException {
-        if (instructions.isEmpty()){
+        if (instructions == null || instructions.isEmpty()){
             throw new ReportEngineException("Instructions cannot be empty.");
         }
 
