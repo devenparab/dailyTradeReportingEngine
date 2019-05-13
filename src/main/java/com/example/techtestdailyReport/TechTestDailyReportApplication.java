@@ -1,5 +1,6 @@
 package com.example.techtestdailyReport;
 
+import com.example.techtestdailyReport.Exception.ReportEngineException;
 import com.example.techtestdailyReport.dataPopulator.DataPopulator;
 import com.example.techtestdailyReport.model.Instruction;
 import com.example.techtestdailyReport.model.TradeType;
@@ -14,17 +15,21 @@ public class TechTestDailyReportApplication {
 
 		ReportEngine engine = new ReportEngine();
 
-		//Daily outgoing amount
-		engine.dailyAmountSettled(instructions,TradeType.BUY);
+		try {
+			//Daily outgoing amount
+			engine.dailyAmountSettled(instructions,TradeType.BUY);
 
-		//Daily incoming amount
-		engine.dailyAmountSettled(instructions,TradeType.SELL);
+			//Daily incoming amount
+			engine.dailyAmountSettled(instructions,TradeType.SELL);
 
-		//Daily Ranking outgoing
-		engine.dailyEntityRanking(instructions,TradeType.BUY);
+			//Daily Ranking outgoing
+			engine.dailyEntityRanking(instructions,TradeType.BUY);
 
-		//Daily Ranking incoming
-		engine.dailyEntityRanking(instructions,TradeType.SELL);
+			//Daily Ranking incoming
+			engine.dailyEntityRanking(instructions,TradeType.SELL);
+		} catch (ReportEngineException e) {
+			System.out.println("Some exception occurred :: "+e.getMessage());
+		}
 
 	}
 

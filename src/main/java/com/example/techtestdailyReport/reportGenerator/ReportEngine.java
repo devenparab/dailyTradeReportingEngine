@@ -1,5 +1,6 @@
 package com.example.techtestdailyReport.reportGenerator;
 
+import com.example.techtestdailyReport.Exception.ReportEngineException;
 import com.example.techtestdailyReport.model.Instruction;
 import com.example.techtestdailyReport.model.TradeType;
 
@@ -13,7 +14,11 @@ import java.util.stream.Collectors;
 
 public class ReportEngine {
 
-    public void dailyAmountSettled(List<Instruction> instructions, TradeType type) {
+    public void dailyAmountSettled(List<Instruction> instructions, TradeType type) throws ReportEngineException {
+        if (instructions.isEmpty()){
+            throw new ReportEngineException("Instructions cannot be empty.");
+        }
+
         List<Instruction> filtered = filterOnTypeCriteria(instructions, type);
         //Map<LocalDate, Double> amtSettledMap = filtered.stream().collect(Collectors.groupingBy(Instruction::getDerivedSettlementDate,Collectors.summingDouble(Instruction::getAmount)));
         Map<LocalDate, BigDecimal> amtSettledMap = filtered.stream().collect(Collectors.groupingBy(Instruction::getDerivedSettlementDate,
@@ -30,7 +35,11 @@ public class ReportEngine {
         return instructions.stream().filter(i -> i.getTradeType().name().equals(type.name())).collect(Collectors.toList());
     }
 
-    public void dailyEntityRanking(List<Instruction> instructions, TradeType type) {
+    public void dailyEntityRanking(List<Instruction> instructions, TradeType type) throws ReportEngineException {
+        if (instructions.isEmpty()){
+            throw new ReportEngineException("Instructions cannot be empty.");
+        }
+
         List<Instruction> filtered = filterOnTypeCriteria(instructions,type);
         Map<LocalDate, List<Instruction>> sortedWithAmtMap = filtered.stream().sorted(Comparator.comparing(Instruction::getAmount).reversed()).collect(Collectors.groupingBy(Instruction::getDerivedSettlementDate));
         String typeOfTrade = type.name().equals(TradeType.BUY.name()) ? "Outgoing" : "Incoming";
